@@ -4,6 +4,7 @@ const app = express();
 require('dotenv').config();
 const port = process.env.PORT || 5000;
 const { MongoClient } = require('mongodb');
+const ObjectId = require("mongodb").ObjectId;
 
 app.use(cors())
 app.use(express.json());
@@ -18,7 +19,20 @@ async function run() {
       const volunteerCollection = database.collection('volunteerItems');
 
       
-    
+    // POST API
+    app.post('/addnewservice', async (req, res) => {
+    const service = req.body;
+    const result = await volunteerCollection.insertOne(service);
+    res.json(result);
+  })
+   
+  // GET API 
+  app.get('/addnewservice', async (req, res) => {
+    const cursor = volunteerCollection.find({});
+    const services = await cursor.toArray();
+    res.json(services);
+  })
+      
 
 
     } finally {
