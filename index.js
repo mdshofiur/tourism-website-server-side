@@ -20,19 +20,32 @@ async function run() {
 
       
     // POST API
-    app.post('/addnewservice', async (req, res) => {
+    app.post('/bookingitem', async (req, res) => {
     const service = req.body;
     const result = await volunteerCollection.insertOne(service);
     res.json(result);
   })
    
   // GET API 
-  app.get('/addnewservice', async (req, res) => {
+  app.get('/bookingitem', async (req, res) => {
     const cursor = volunteerCollection.find({});
     const services = await cursor.toArray();
     res.json(services);
   })
       
+  
+// Get Single API
+
+  app.get('/bookingitem/:serviceId', async (req, res) => {
+  const id = req.params.serviceId;
+  const query = {_id: ObjectId(id)};
+  const service = await volunteerCollection.findOne(query);
+  res.json(service);
+  })
+   
+  
+
+
 
 
     } finally {
