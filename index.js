@@ -54,13 +54,26 @@ async function run() {
   })
 
 
-  // My Order Api 
+  // All Order Api 
 
   app.get('/myorders', async (req, res) => {
     const cursor = BookingCollection.find({});
     const services = await cursor.toArray();
     res.json(services);
   })
+
+
+  app.get('/myorders/:email', async (req, res) => {
+      const result = await BookingCollection.find({ 
+        LogEmail: req.params.email
+      }).toArray();
+      res.send(result);
+  })
+
+
+
+
+
 
 
   // Delete Api
