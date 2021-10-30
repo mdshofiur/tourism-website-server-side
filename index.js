@@ -17,6 +17,7 @@ async function run() {
       await client.connect();
       const database = client.db('volunteer');
       const volunteerCollection = database.collection('volunteerItems');
+      const BookingCollection = database.collection('BookingCollection');
 
       
     // POST API
@@ -43,6 +44,27 @@ async function run() {
   res.json(service);
   })
    
+  
+  // Booking Post API
+    
+  app.post('/myorders', async (req, res) => {
+    const service = req.body;
+    const result = await BookingCollection.insertOne(service);
+    res.json(result);
+  })
+
+
+  // My Order Api 
+
+  app.get('/myorders', async (req, res) => {
+    const cursor = BookingCollection.find({});
+    const services = await cursor.toArray();
+    res.json(services);
+  })
+
+
+  // Delete Api
+
   
 
 
