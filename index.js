@@ -72,10 +72,6 @@ async function run() {
 
 
 
-
-
-
-
   // Delete Api
 
   app.delete('/myorders/:id', async (req,res) => {
@@ -84,6 +80,22 @@ async function run() {
     const result = await BookingCollection.deleteOne(query);
     res.send(result);
   })
+
+
+  // Update APi
+
+  app.put('/myorders/:id', async (req, res) => {
+    const id = req.params.id;
+    const query = {_id: ObjectId(id)};
+    const options = { upsert: true };
+    const updateDoc = {
+      $set: {
+        status: "Approved",
+      },
+    }
+    const result = await BookingCollection.updateOne(query,updateDoc,options);
+    res.json(result);
+})
 
 
 
